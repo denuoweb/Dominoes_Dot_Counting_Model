@@ -1,25 +1,10 @@
-import tensorflow as tf
+import cv2
+import os
 
-def load_dataset(train_dir, val_dir):
-    # Define parameters for dataset loading and augmentation
-    batch_size = 32
-    img_height = 200
-    img_width = 200
-
-    train_ds = tf.keras.preprocessing.image_dataset_from_directory(
-        train_dir,
-        validation_split=0.2,
-        subset="training",
-        seed=123,
-        image_size=(img_height, img_width),
-        batch_size=batch_size)
-
-    val_ds = tf.keras.preprocessing.image_dataset_from_directory(
-        val_dir,
-        validation_split=0.2,
-        subset="validation",
-        seed=123,
-        image_size=(img_height, img_width),
-        batch_size=batch_size)
-
-    return train_ds, val_ds
+def load_dataset(image_dir):
+    images = []
+    for filename in os.listdir(image_dir):
+        img = cv2.imread(os.path.join(image_dir, filename))
+        if img is not None:
+            images.append(img)
+    return images
