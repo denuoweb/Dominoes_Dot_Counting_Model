@@ -1,43 +1,31 @@
 import argparse
-import tensorflow as tf
-from model.domino_detector import DominoDetector
+from model.yolo_detector import YoloDetector
+from utils.image_processor import process_and_count_dots
 from utils.data_loader import load_dataset
-from utils.evaluator import evaluate_model
 
-def train_model():
+def process_images():
     # Load dataset
-    train_data, val_data = load_dataset('data/train', 'data/val')
+    images = load_dataset('data/images')
 
-    # Initialize the model
-    model = DominoDetector()
+    # Initialize the YOLO model
+    yolo_model = YoloDetector()
 
-    # Compile the model
-    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+    # Process each image
+    for img in images:
+        # Detect dominoes
+        detected_dominoes = yolo_model.detect_dominoes(img)
+        
+        # Count dots on each domino
+        total_dots = process_and_count_dots(detected_dominoes)
 
-    # Train the model
-    model.fit(train_data, validation_data=val_data, epochs=10)
-
-def evaluate_model():
-    # Load dataset
-    test_data = load_dataset('data/test')
-
-    # Initialize the model
-    model = DominoDetector()
-
-    # Load weights
-    model.load_weights('path/to/saved_model')
-
-    # Evaluate the model
-    return evaluate_model(model, test_data)
+        # Output the results
+        print(f"Total dots in image: {total_dots}")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Train and Evaluate Domino Dot Counting Model')
-    parser.add_argument('--train', action='store_true', help='Train the model')
-    parser.add_argument('--evaluate', action='store_true', help='Evaluate the model')
+    parser = argparse.ArgumentParser(description='Domino Dot Counting')
+    parser.add_argument('--process', action='store_true', help='Process images to count domino dots')
 
     args = parser.parse_args()
 
-    if args.train:
-        train_model()
-    elif args.evaluate:
-        evaluate_model()
+    if args.process:
+        process_images()
