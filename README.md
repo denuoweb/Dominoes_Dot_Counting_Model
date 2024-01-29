@@ -8,7 +8,8 @@ The dataset should consist of annotated images of dominoes. Each image must have
 
 ## Requirements
 - Python 3.x
-- TensorFlow 2.x
+- PyTorch (for YOLO)
+- YOLOv3 or YOLOv5 pre-trained weights
 - OpenCV
 - NumPy
 - Pandas
@@ -32,11 +33,14 @@ To evaluate the model, run:
 
 ```python main.py --evaluate```
 
+- First, use OpenCV for preprocessing images, and then apply the YOLO model for domino detection.
+- After detecting dominoes, count the dots on each domino using image processing techniques.
+
+
 ## Structure
-- `main.py`: Entry point for training and evaluating the model.
-- `model/`: Contains the scripts for the model architecture and data processing.
-- `data/`: Directory for storing the dataset.
-- `utils/`: Utility scripts for various tasks like data loading and preprocessing.
+- `main.py`: Entry point for the entire process.
+- `model/yolo_detector.py`: Script for the YOLO-based domino detection.
+- `utils/image_processor.py`: Utility for image preprocessing and dot counting.
 
 ## Contributing
 Contributions to this project are welcome. Please follow the standard fork-and-pull request workflow.
