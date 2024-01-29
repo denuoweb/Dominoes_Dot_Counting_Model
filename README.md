@@ -1,18 +1,17 @@
 # Domino Dot Counting Model
 
 ## Overview
-This project aims to develop a machine learning model capable of detecting dominoes in images and counting the number of dots on each. The model will be trained on a dataset of annotated images of dominoes.
+This project develops a machine learning model to detect dominoes in images and count the number of dots on each. It utilizes YOLO (You Only Look Once) for domino detection and OpenCV for image processing.
 
 ## Dataset
 The dataset should consist of annotated images of dominoes. Each image must have bounding box annotations around each domino and labels indicating the number of dots.
 
 ## Requirements
 - Python 3.x
-- PyTorch (for YOLO)
-- YOLOv3 or YOLOv5 pre-trained weights
 - OpenCV
+- PyTorch and Torchvision
 - NumPy
-- Pandas
+- Pillow
 - Other dependencies listed in `requirements.txt`
 
 ## Installation
@@ -25,27 +24,31 @@ The dataset should consist of annotated images of dominoes. Each image must have
 ```pip install -r requirements.txt```
 
 ## Usage
-To train the model, run:
+To process images and count domino dots, run:
 
-```python main.py --train```
+```python main.py --process```
 
 To evaluate the model, run:
 
 ```python main.py --evaluate```
 
 ## Summary
-- First, use OpenCV for preprocessing images, and then apply the YOLO model for domino detection.
-- After detecting dominoes, count the dots on each domino using image processing techniques.
+- The project uses OpenCV for preprocessing images to prepare them for object detection.
+- YOLO (You Only Look Once), implemented in `yolo_detector.py`, is used for accurate and efficient domino detection in the images.
+- Once dominoes are detected, `image_processor.py` applies image processing techniques to count the dots on each detected domino.
+- `main.py` serves as the orchestration script, leveraging both the YOLO model and the image processing functionality to process images and count domino dots.
+- `data_loader.py` has been adapted to load and handle images using OpenCV, ensuring compatibility with the YOLO model's input requirements.
+- The TensorFlow-based `evaluator.py` is no longer needed in this workflow, as the project has transitioned to a focus on YOLO and OpenCV.
 
-- The YOLO model (yolo_detector.py) is responsible for detecting dominoes in the images.
-- The image processor (image_processor.py) applies additional image processing to count the dots on each detected domino.
-- The main.py script orchestrates the process, calling the YOLO detector and the image processor for each image.
-- The data_loader.py is updated to load images using OpenCV, suitable for the YOLO model input.
+## Project Structure
+- `main.py`: Entry point for processing images.
+- `model/yolo_detector.py`: YOLO-based domino detection.
+- `utils/image_processor.py`: Image processing for dot counting.
+- `utils/data_loader.py`: Utility for loading images.
+- `data/`: Directory to store the dataset.
 
-## Structure
-- `main.py`: Entry point for the entire process.
-- `model/yolo_detector.py`: Script for the YOLO-based domino detection.
-- `utils/image_processor.py`: Utility for image preprocessing and dot counting.
+## Contributing
+Contributions to this project are welcome. Please follow the standard fork-and-pull request workflow.
 
 ## Contributing
 Contributions to this project are welcome. Please follow the standard fork-and-pull request workflow.
